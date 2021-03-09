@@ -166,18 +166,18 @@ collapseVariants <- function(variants, sample_file) {
 
 
 getCollapseData <- function(model, cluster, chr) {
-    sample_file <- paste0("/nfs/projects/dbGap/COPD_sample_remove/flashpca/flashPCA_lclustering_res_0_3_cluster_", cluster, "_sample.txt")
-    vcf_file <- paste0("/nfs/projects/dbGap/COPD_sample_remove/chr_vcf_cluster/chr_", chr, "/dbGap_all_chr", chr, "_coding_phase2_VEP_LOFTEE_cluster_", cluster, "_nomono.vcf.gz")
+    sample_file <- paste0("/project/flashpca/flashPCA_lclustering_res_0_3_cluster_", cluster, "_sample.txt")
+    vcf_file <- paste0("/project/chr_vcf_cluster/chr_", chr, "/dbGap_all_chr", chr, "_coding_phase2_VEP_LOFTEE_cluster_", cluster, "_nomono.vcf.gz")
 
-    results_path <- paste0("/nfs/projects/dbGap/COPD_sample_remove/collapsing_analyses/LClust_res_0_3_cluster_", cluster, "_All_FlashColl_07")
+    results_path <- paste0("/project/collapsing_analyses/LClust_res_0_3_cluster_", cluster, "_All_FlashColl_07")
     if(!dir.exists(results_path)) {
         dir.create(results_path)
     } else {
         print((paste0("Directory ", results_path, " already exists")))
     }
 	
-	model_path <- paste0(results_path, "/", model)
-	if(!dir.exists(model_path)) {
+    model_path <- paste0(results_path, "/", model)
+    if(!dir.exists(model_path)) {
         dir.create(model_path)
     } else {
         print((paste0("Directory ", model_path, " already exists")))
@@ -187,7 +187,7 @@ getCollapseData <- function(model, cluster, chr) {
     if (model == "RareEnsemble") {
         effect <- NULL
         effect_impact <- c("HIGH", "MODERATE")
-		LOFTEE <- c("HC", "LC")
+        LOFTEE <- c("HC", "LC")
         polyphen <- c("probably")
         revel <- 0.5
         primateai <- 0.8
@@ -201,7 +201,7 @@ getCollapseData <- function(model, cluster, chr) {
     } else if(model == "PTV") {
         effect <- NULL
         effect_impact <- c("HIGH")
-		LOFTEE <- c("HC", "LC")
+        LOFTEE <- c("HC", "LC")
         polyphen <- c("benign", "possibly", "probably", "unknown")
         revel <- 0
         primateai <- 0
@@ -215,7 +215,7 @@ getCollapseData <- function(model, cluster, chr) {
     } else if(model == "Synonymous") {
         effect <- SYN_EFFECTS
         effect_impact <- c("LOW")
-		LOFTEE <- c("HC", "LC")
+        LOFTEE <- c("HC", "LC")
         polyphen <- c("benign", "possibly", "probably", "unknown")
         revel <- 0
         primateai <- 0
@@ -229,7 +229,7 @@ getCollapseData <- function(model, cluster, chr) {
     } else if(model == "PTVwLOFTEE") {
         effect <- NULL
         effect_impact <- c("HIGH")
-		LOFTEE <- c("HC")
+        LOFTEE <- c("HC")
         polyphen <- c("benign", "possibly", "probably", "unknown")
         revel <- 0
         primateai <- 0
@@ -342,7 +342,7 @@ LOF_EFFECTS <- c("exon_loss_variant", "frameshift_variant", "rare_amino_acid_var
 SYN_EFFECTS <- c("start_retained_variant", "stop_retained_variant", "synonymous_variant")
 
 ##setting##
-#setwd("/nfs/projects/dbGap/COPD_sample_remove/collapsing_analyses/")
+#setwd("/project/collapsing_analyses/")
 nclust <- c(0:6)
 resolution <- "0_3"
 
@@ -353,7 +353,7 @@ chr = as.numeric(args[2])
 ###main##
 cmhs.tidy <- getCMHres(model, chr, nclust)
 cmhs.tidy <-  cmhs.tidy %>% filter(gene != "")
-rds_path <- paste0("/nfs/projects/dbGap/COPD_sample_remove/collapsing_analyses/", model, "_RDS_path/")
+rds_path <- paste0("/project/collapsing_analyses/", model, "_RDS_path/")
 saveRDS(cmhs.tidy, paste0(rds_path, Sys.Date(), "_", model, "_chr", chr, "_res_", resolution,"_cluster_", paste(nclust, collapse = "_"), "_exact_CMH.RDS"))
 #write.csv(cmhs.tidy, paste0(rds_path, Sys.Date(), "_", model, "_chr", chr, "_res_", resolution,"_cluster_", paste(nclust, collapse = "_"), "_exact_CMH.csv"), row.names=FALSE)
 
