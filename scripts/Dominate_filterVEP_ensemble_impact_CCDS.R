@@ -114,7 +114,7 @@ filterVcf <- function(vcf_data, effect, effect_impact, LOFTEE, polyphen, revel,
         ungroup()
     
     
-    variants <- vcf_filt %>% left_join(gt, by = "key") %>% select(Indiv, everything())
+    variants <- vcf_filt %>% left_join(gt, by = "key") %>% select(Indiv, everything()) %>% select(-contains(".y"))
     variants <- variants %>% 
         separate(gt_GT_alleles, c("gt_allele1", "gt_allele2"), sep = "/|\\|") %>% 
         mutate(gt_score = case_when(gt_GT %in% c("0/1", "1/0", "0|1", "1|0") & (gt_allele1 == ALT | gt_allele2 == ALT) ~ 1,
